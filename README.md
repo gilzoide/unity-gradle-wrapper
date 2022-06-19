@@ -31,6 +31,15 @@ Alternatively, add the following into your `Packages/manifest.json` file:
 ```
 
 
+## How to use
+1. Open the `Gradle Wrapper` section in Project Settings
+2. Write the version of Gradle you want in the `Gradle Version` setting input
+   field
+3. Mark `Export Project` in the Build Settings window
+4. Hit the `Export` button
+5. Enjoy 🍾
+
+
 ## Why
 If you open an exported project in Android Studio, it will
 generate a Gradle Wrapper if none is found in the project.
