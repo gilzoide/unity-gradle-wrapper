@@ -36,14 +36,25 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
                 return;
             }
 
+            // Use project's root folder instead of /unityLibrary
+            path = Path.GetDirectoryName(path);
+
+            // Using an empty build script makes Gradle skip configuring the
+            // whole project.
+            // Useful in case the build scripts are incompatible with the
+            // version of Gradle that will generate the wrapper.
+            string emptyGradleScriptFile = "empty.gradle";
+            string emptyGradleScriptPath = Path.Combine(path, emptyGradleScriptFile);
+            File.WriteAllText(emptyGradleScriptPath, "");
+
             var startInfo = new ProcessStartInfo()
             {
                 FileName = GetJavaExecutable(),
-                Arguments = $"-jar \"{GRADLE_JAR}\" wrapper --gradle-version {gradleVersion}",
+                Arguments = $"-jar \"{GRADLE_JAR}\" wrapper --gradle-version {gradleVersion} -b {emptyGradleScriptFile}",
                 RedirectStandardError = true,
                 UseShellExecute = false,
                 WindowStyle = ProcessWindowStyle.Hidden,
-                WorkingDirectory = Path.GetDirectoryName(path),
+                WorkingDirectory = path,
             };
             Debug.Log($"[{nameof(GradleWrapperGenerator)}] Running `\"{startInfo.FileName}\" {startInfo.Arguments}`");
             using (var process = Process.Start(startInfo))
@@ -56,6 +67,8 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
 
                 process.WaitForExit();
             }
+
+            File.Delete(emptyGradleScriptPath);
         }
 
         public static string GetJavaExecutable()
