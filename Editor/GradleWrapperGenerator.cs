@@ -68,7 +68,11 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
 #else
             string javaRoot = Path.Combine(GetUnityAndroidPlayerRoot(), "OpenJDK");
 #endif
-            string javaExe = Path.Combine(javaRoot, "bin", "java" + Path.GetExtension(EditorApplication.applicationPath));
+#if UNITY_EDITOR_WIN
+            string javaExe = Path.Combine(javaRoot, "bin", "java.exe");
+#else
+            string javaExe = Path.Combine(javaRoot, "bin", "java");
+#endif
             if (File.Exists(javaExe))
             {
                 return javaExe;
