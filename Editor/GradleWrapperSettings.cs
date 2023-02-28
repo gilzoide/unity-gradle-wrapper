@@ -14,7 +14,7 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
 
         public static string GradleVersion
         {
-            get => File.Exists(GRADLE_VERSION_FILE_PATH) ? File.ReadAllText(GRADLE_VERSION_FILE_PATH) : "";
+            get => File.Exists(GRADLE_VERSION_FILE_PATH) ? File.ReadAllText(GRADLE_VERSION_FILE_PATH).Trim() : "";
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
