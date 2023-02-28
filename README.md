@@ -1,4 +1,6 @@
 # Gradle Wrapper Generator
+[![openupm](https://img.shields.io/npm/v/com.gilzoide.gradle-wrapper?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.gilzoide.gradle-wrapper/)
+
 Automatically generate a [Gradle Wrapper (gradlew)](https://docs.gradle.org/current/userguide/gradle_wrapper.html)
 when exporting Android projects in Unity.
 
@@ -11,11 +13,17 @@ The `Gradle Version` setting gets stored in the
 
 
 ## Installing
-Install via [Unity Package Manager](https://docs.unity3d.com/Manual/upm-ui-giturl.html)
+This package is available on the [openupm registry](https://openupm.com/) and can be installed using the [openupm-cli](https://github.com/openupm/openupm-cli):
+
+```
+openupm add com.gilzoide.gradle-wrapper
+```
+
+Otherwise, you can install via [Unity Package Manager](https://docs.unity3d.com/Manual/upm-ui-giturl.html)
 using this repository URL and tag:
 
 ```
-https://github.com/gilzoide/unity-gradle-wrapper.git#1.0.3
+https://github.com/gilzoide/unity-gradle-wrapper.git#1.0.4
 ```
 
 Alternatively, add the following into your `Packages/manifest.json` file:
@@ -24,7 +32,7 @@ Alternatively, add the following into your `Packages/manifest.json` file:
 {
   "dependencies": {
 // ...
-    "com.gilzoide.gradle-wrapper": "https://github.com/gilzoide/unity-gradle-wrapper.git#1.0.3",
+    "com.gilzoide.gradle-wrapper": "https://github.com/gilzoide/unity-gradle-wrapper.git#1.0.4",
 // ...
   }
 }
