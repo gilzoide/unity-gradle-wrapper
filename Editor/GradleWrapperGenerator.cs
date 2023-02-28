@@ -41,7 +41,7 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
                 Arguments = $"-jar \"{FindGradleJar()}\" wrapper --gradle-version {gradleVersion} -b {emptyGradleScriptFile}",
                 RedirectStandardError = true,
                 UseShellExecute = false,
-                WindowStyle = ProcessWindowStyle.Hidden,
+                CreateNoWindow = true,
                 WorkingDirectory = path,
             };
             Debug.Log($"[{nameof(GradleWrapperGenerator)}] Running `\"{startInfo.FileName}\" {startInfo.Arguments}`");
