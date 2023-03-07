@@ -38,7 +38,7 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
             var startInfo = new ProcessStartInfo()
             {
                 FileName = FindJavaExecutable(),
-                Arguments = $"-jar \"{FindGradleJar()}\" wrapper --gradle-version {gradleVersion} -b {emptyGradleScriptFile}",
+                Arguments = $"-jar \"{FindGradleJar()}\" wrapper --gradle-version {gradleVersion} -b {emptyGradleScriptFile} --no-daemon",
                 RedirectStandardError = true,
                 UseShellExecute = false,
                 CreateNoWindow = true,
