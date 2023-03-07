@@ -23,7 +23,7 @@ Otherwise, you can install via [Unity Package Manager](https://docs.unity3d.com/
 using this repository URL and tag:
 
 ```
-https://github.com/gilzoide/unity-gradle-wrapper.git#1.0.4
+https://github.com/gilzoide/unity-gradle-wrapper.git#1.0.5
 ```
 
 Alternatively, add the following into your `Packages/manifest.json` file:
@@ -32,7 +32,7 @@ Alternatively, add the following into your `Packages/manifest.json` file:
 {
   "dependencies": {
 // ...
-    "com.gilzoide.gradle-wrapper": "https://github.com/gilzoide/unity-gradle-wrapper.git#1.0.4",
+    "com.gilzoide.gradle-wrapper": "https://github.com/gilzoide/unity-gradle-wrapper.git#1.0.5",
 // ...
   }
 }
