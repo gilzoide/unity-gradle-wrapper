@@ -96,8 +96,12 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
 
         public static string FindGradleVersion()
         {
-            string gradleJar = Path.GetFileName(FindGradleJar());
-            Match match = new Regex(@"\d+(\.\d+)*").Match(gradleJar);
+            string gradleJar = FindGradleJar();
+            if (string.IsNullOrEmpty(gradleJar))
+            {
+                return null;
+            }
+            Match match = new Regex(@"\d+(\.\d+)*").Match(Path.GetFileName(gradleJar));
             if (match.Success)
             {
                 return match.Value;
