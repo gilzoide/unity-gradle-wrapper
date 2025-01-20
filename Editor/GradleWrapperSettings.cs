@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEditor;
+using UnityEngine;
 
 namespace Gilzoide.GradleWrapperGenerator.Editor
 {
@@ -8,7 +9,8 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
         const string SETTINGS_PATH = "Project/GradleWrapper";
         const string SETTINGS_LABEL = "Gradle Wrapper";
         const string SETTINGS_TITLE = "Gradle Version";
-        const string SETTINGS_HELP = "If " + SETTINGS_TITLE + " is not empty, a Gradle Wrapper (gradlew) will be generated with the specified version when exporting Android projects.";
+        static readonly string SETTINGS_HELP = "A Gradle Wrapper (gradlew) will be generated with the specified version when exporting Android projects."
+            + (GradleWrapperGenerator.FindGradleVersion() is string version ? $"\nLeave this empty to use the default version {version}." : "");
 
         static readonly string GRADLE_VERSION_FILE_PATH = Path.Combine("ProjectSettings", "GradleVersion.txt");
 
@@ -32,6 +34,7 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
         static SettingsProvider CreateSettingsProvider()
         {
             string currentVersion = GradleVersion;
+            string defaultVersion = GradleWrapperGenerator.FindGradleVersion();
             return new SettingsProvider(SETTINGS_PATH, SettingsScope.Project)
             {
                 label = SETTINGS_LABEL,
@@ -39,6 +42,13 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
                 {
                     EditorGUILayout.HelpBox(SETTINGS_HELP, MessageType.Info);
                     string newVersion = EditorGUILayout.TextField(SETTINGS_TITLE, currentVersion);
+                    if (defaultVersion != null && string.IsNullOrWhiteSpace(newVersion))
+                    {
+                        Color c = GUI.color;
+                        GUI.color = new Color(0.7f, 0.7f, 0.7f);
+                        EditorGUI.LabelField(GUILayoutUtility.GetLastRect(), " ", defaultVersion);
+                        GUI.color = c;
+                    }
                     if (newVersion != currentVersion)
                     {
                         currentVersion = GradleVersion = newVersion;
