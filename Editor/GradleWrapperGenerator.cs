@@ -1,6 +1,8 @@
 #if UNITY_ANDROID
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEditor.Android;
 using Debug = UnityEngine.Debug;
@@ -13,24 +15,22 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
 
         public void OnPostGenerateGradleAndroidProject(string path)
         {
-            if (!EditorUserBuildSettings.exportAsGoogleAndroidProject)
-            {
-                return;
-            }
-
             string gradleVersion = GradleWrapperSettings.GradleVersion;
             if (string.IsNullOrWhiteSpace(gradleVersion))
             {
+                gradleVersion = FindGradleVersion();
+            }
+            if (string.IsNullOrWhiteSpace(gradleVersion))
+            {
+                Debug.LogWarning($"[{nameof(GradleWrapperGenerator)}] Unable to find Gradle version. Skipping Gradle Wrapper generation.");
                 return;
             }
 
             // Use project's root folder instead of /unityLibrary
             path = Path.GetDirectoryName(path);
 
-            // Using an empty build script makes Gradle skip configuring the
-            // whole project.
-            // Useful in case the build scripts are incompatible with the
-            // version of Gradle that will generate the wrapper.
+            // Using an empty build script makes Gradle skip configuring the whole project.
+            // Useful in case build scripts are incompatible with the version of Gradle that will generate the wrapper.
             string emptyGradleScriptFile = "empty.gradle";
             string emptyGradleScriptPath = Path.Combine(path, emptyGradleScriptFile);
             File.WriteAllText(emptyGradleScriptPath, "");
@@ -94,6 +94,20 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
             return FindFirstFileWithPattern(Path.Combine(gradleRoot, "lib"), "gradle-launcher*.jar");
         }
 
+        public static string FindGradleVersion()
+        {
+            string gradleJar = Path.GetFileName(FindGradleJar());
+            Match match = new Regex(@"\d+(\.\d+)*").Match(gradleJar);
+            if (match.Success)
+            {
+                return match.Value;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static string GetUnityAndroidPlayerRoot()
         {
             string unityRoot = Path.GetDirectoryName(EditorApplication.applicationPath);
@@ -106,12 +120,7 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
 
         public static string FindFirstFileWithPattern(string dir, string pattern)
         {
-            string[] files = Directory.GetFiles(dir, pattern);
-            if (files.Length == 0)
-            {
-                throw new FileNotFoundException($"Couldn't find any file with pattern '{pattern}' in '{dir}'");
-            }
-            return files[0];
+            return Directory.EnumerateFiles(dir, pattern).FirstOrDefault();
         }
     }
 }

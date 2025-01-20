@@ -8,7 +8,8 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
         const string SETTINGS_PATH = "Project/GradleWrapper";
         const string SETTINGS_LABEL = "Gradle Wrapper";
         const string SETTINGS_TITLE = "Gradle Version";
-        const string SETTINGS_HELP = "If " + SETTINGS_TITLE + " is not empty, a Gradle Wrapper (gradlew) will be generated with the specified version when exporting Android projects.";
+        static readonly string SETTINGS_HELP = "A Gradle Wrapper (gradlew) will be generated with the specified version when exporting Android projects."
+            + (GradleWrapperGenerator.FindGradleVersion() is string version ? $"\nLeave this empty to use the default version {version}." : "");
 
         static readonly string GRADLE_VERSION_FILE_PATH = Path.Combine("ProjectSettings", "GradleVersion.txt");
 
