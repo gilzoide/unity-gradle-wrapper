@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEditor;
+using UnityEngine;
 
 namespace Gilzoide.GradleWrapperGenerator.Editor
 {
@@ -33,6 +34,7 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
         static SettingsProvider CreateSettingsProvider()
         {
             string currentVersion = GradleVersion;
+            string defaultVersion = GradleWrapperGenerator.FindGradleVersion();
             return new SettingsProvider(SETTINGS_PATH, SettingsScope.Project)
             {
                 label = SETTINGS_LABEL,
@@ -40,6 +42,13 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
                 {
                     EditorGUILayout.HelpBox(SETTINGS_HELP, MessageType.Info);
                     string newVersion = EditorGUILayout.TextField(SETTINGS_TITLE, currentVersion);
+                    if (defaultVersion != null && string.IsNullOrWhiteSpace(newVersion))
+                    {
+                        Color c = GUI.color;
+                        GUI.color = new Color(0.7f, 0.7f, 0.7f);
+                        EditorGUI.LabelField(GUILayoutUtility.GetLastRect(), " ", defaultVersion);
+                        GUI.color = c;
+                    }
                     if (newVersion != currentVersion)
                     {
                         currentVersion = GradleVersion = newVersion;
