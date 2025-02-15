@@ -10,7 +10,7 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
         const string SETTINGS_LABEL = "Gradle Wrapper";
         const string SETTINGS_TITLE = "Gradle Version";
         static readonly string SETTINGS_HELP = "A Gradle Wrapper (gradlew) will be generated with the specified version when exporting Android projects."
-            + (GradleWrapperGenerator.FindGradleVersion() is string version ? $"\nLeave this empty to use the default version {version}." : "");
+            + (GradleWrapperPaths.FindGradleVersion() is string version ? $"\nLeave this empty to use the default version {version}." : "");
 
         static readonly string GRADLE_VERSION_FILE_PATH = Path.Combine("ProjectSettings", "GradleVersion.txt");
 
@@ -34,7 +34,7 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
         static SettingsProvider CreateSettingsProvider()
         {
             string currentVersion = GradleVersion;
-            string defaultVersion = GradleWrapperGenerator.FindGradleVersion();
+            string defaultVersion = GradleWrapperPaths.FindGradleVersion();
             return new SettingsProvider(SETTINGS_PATH, SettingsScope.Project)
             {
                 label = SETTINGS_LABEL,
