@@ -41,7 +41,8 @@ namespace Gilzoide.GradleWrapperGenerator.Editor
 #else
             string gradleRoot = Path.Combine(GetUnityAndroidPlayerRoot(), "Tools", "gradle");
 #endif
-            return FindFirstFileWithPattern(Path.Combine(gradleRoot, "lib"), "gradle-launcher*.jar");
+            return FindFirstFileWithPattern(Path.Combine(gradleRoot, "lib"), "gradle-gradle-cli-main*.jar")
+                ?? FindFirstFileWithPattern(Path.Combine(gradleRoot, "lib"), "gradle-launcher*.jar");
         }
 
         public static string FindGradleVersion()
